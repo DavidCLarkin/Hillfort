@@ -16,6 +16,7 @@ import org.wit.hillfort.models.HillfortModel
 
 class HillfortActivity : AppCompatActivity(), AnkoLogger
 {
+    var edit = false
     var hillfort = HillfortModel()
     lateinit var app : MainApp
 
@@ -32,26 +33,33 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         //If edit, get the object and set view values
         if(intent.hasExtra("hillfort_edit"))
         {
+            edit = true
             hillfort = intent.extras.getParcelable<HillfortModel>("hillfort_edit")
             hillfortTitle.setText(hillfort.title)
             description.setText(hillfort.description)
+            buttonAdd.setText(R.string.save_hillfort)
         }
 
         buttonAdd.setOnClickListener()
         {
             hillfort.title = hillfortTitle.text.toString()
             hillfort.description = description.text.toString()
-            if (hillfort.title.isNotEmpty())
-            {
-                app.hillforts.create(hillfort.copy())
-                info("add Button Pressed: $hillfortTitle")
-                //app.hillforts.findAll().forEach{ info("add Button Pressed: ${it.title}")}
-                setResult(AppCompatActivity.RESULT_OK)
-                finish()
+            if (hillfort.title.isEmpty()) {
+                toast(R.string.enter_hillfort_title)
             }
             else
             {
-                toast ("Please Enter a title")
+                if(edit)
+                {
+                    app.hillforts.update(hillfort.copy())
+                }
+                else
+                {
+                    app.hillforts.create(hillfort.copy())
+                }
+                info("add Button Pressed: $hillfortTitle")
+                setResult(AppCompatActivity.RESULT_OK)
+                finish()
             }
         }
     }
