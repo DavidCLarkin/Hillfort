@@ -1,5 +1,6 @@
 package org.wit.hillfort.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,12 +11,16 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import org.wit.hillfort.R
+import org.wit.hillfort.helpers.readImage
+import org.wit.hillfort.helpers.readImageFromPath
+import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 
 
 class HillfortActivity : AppCompatActivity(), AnkoLogger
 {
+    val IMAGE_REQUEST = 1
     var edit = false
     var hillfort = HillfortModel()
     lateinit var app : MainApp
@@ -38,6 +43,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             hillfortTitle.setText(hillfort.title)
             description.setText(hillfort.description)
             buttonAdd.setText(R.string.save_hillfort)
+            hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
         }
 
         buttonAdd.setOnClickListener()
@@ -64,7 +70,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         }
 
         chooseImage.setOnClickListener {
-            info("Select image")
+            showImagePicker(this, IMAGE_REQUEST)
         }
     }
 
@@ -85,5 +91,21 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode)
+        {
+            IMAGE_REQUEST ->
+            {
+                if(data != null)
+                {
+                    hillfort.image = data.getData().toString()
+                    hillfortImage.setImageBitmap(readImage(this, resultCode, data))
+                }
+            }
+        }
     }
 }
