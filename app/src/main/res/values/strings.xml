@@ -3,4 +3,5 @@
     <string name="create_hillfort">Create Hillfort</string>
     <string name="hint_hillfortTitle">Hillfort Title</string>
     <string name="button_addHillfort">Add Hillfort</string>
+    <string name="hint_hillfortDescription">Description</string>
 </resources>
