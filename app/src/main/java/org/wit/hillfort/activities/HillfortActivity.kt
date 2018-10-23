@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.toast
 
 
 class HillfortActivity : AppCompatActivity(), AnkoLogger
@@ -18,6 +20,17 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         setSupportActionBar(findViewById(R.id.mainToolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         info("Working")
+
+        buttonAdd.setOnClickListener()
+        {
+            val hillfortTitle = hillfortTitle.text.toString()
+            if (hillfortTitle.isNotEmpty()) {
+                info("add Button Pressed: $hillfortTitle")
+            }
+            else {
+                toast ("Please Enter a title")
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean
