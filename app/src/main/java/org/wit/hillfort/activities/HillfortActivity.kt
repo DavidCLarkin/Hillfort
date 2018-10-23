@@ -24,9 +24,18 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
         app = application as MainApp
-        setSupportActionBar(findViewById(R.id.mainToolbar))
+        toolbarAdd.title = title
+        setSupportActionBar(toolbarAdd)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         info("Working")
+
+        //If edit, get the object and set view values
+        if(intent.hasExtra("hillfort_edit"))
+        {
+            hillfort = intent.extras.getParcelable<HillfortModel>("hillfort_edit")
+            hillfortTitle.setText(hillfort.title)
+            description.setText(hillfort.description)
+        }
 
         buttonAdd.setOnClickListener()
         {
@@ -34,9 +43,11 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             hillfort.description = description.text.toString()
             if (hillfort.title.isNotEmpty())
             {
-                app.hillforts.add(hillfort.copy())
+                app.hillforts.create(hillfort.copy())
                 info("add Button Pressed: $hillfortTitle")
-                app.hillforts.forEach{ info("add Button Pressed: ${it.title}")}
+                //app.hillforts.findAll().forEach{ info("add Button Pressed: ${it.title}")}
+                setResult(AppCompatActivity.RESULT_OK)
+                finish()
             }
             else
             {
@@ -47,29 +58,20 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean
     {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        menuInflater.inflate(R.menu.menu_hillfort, menu)
         return true
     }
 
     // actions on click menu items
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_text ->
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean
+    {
+        when (item?.itemId)
         {
-            // User chose the "Print" item
-            Toast.makeText(this,"Print action",Toast.LENGTH_LONG).show()
-            true
+            R.id.item_cancel ->
+            {
+                finish()
+            }
         }
-        android.R.id.home ->
-        {
-            Toast.makeText(this,"Home action",Toast.LENGTH_LONG).show()
-            true
-        }
-
-        else ->
-        {
-            // If we got here, the user's action was not recognized.
-            // Invoke the superclass to handle it.
-            super.onOptionsItemSelected(item)
-        }
+        return super.onOptionsItemSelected(item)
     }
 }

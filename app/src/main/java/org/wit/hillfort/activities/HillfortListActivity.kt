@@ -3,19 +3,15 @@ package org.wit.hillfort.activities
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_hillfort.view.*
+import android.view.*
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
-import kotlinx.android.synthetic.main.card_placemark.view.*
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.startActivityForResult
 import org.wit.hillfort.R
-import org.wit.hillfort.R.id.recyclerView
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 
-class HillfortListActivity : AppCompatActivity()
+class HillfortListActivity : AppCompatActivity(), HillfortListener
 {
     lateinit var app: MainApp
 
@@ -24,36 +20,31 @@ class HillfortListActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_list)
         app = application as MainApp
+        toolbarMain.title = title
+        setSupportActionBar(toolbarMain)
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = HillfortAdapter(app.hillforts)
-    }
-}
-
-class HillfortAdapter constructor(private var hillforts: List<HillfortModel>) : RecyclerView.Adapter<HillfortAdapter.MainHolder>()
-{
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder
-    {
-        return MainHolder(LayoutInflater.from(parent?.context).inflate(R.layout.card_placemark, parent, false))
+        recyclerView.adapter = HillfortAdapter(app.hillforts.findAll(), this)
     }
 
-    override fun onBindViewHolder(holder: MainHolder, position: Int)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean
     {
-        val hillfort = hillforts[holder.adapterPosition]
-        holder.bind(hillfort)
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    override fun getItemCount(): Int = hillforts.size
-
-    class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean
     {
-
-        fun bind(hillfort: HillfortModel)
+        when (item?.itemId)
         {
-            itemView.viewTitle.text = hillfort.title
-            itemView.viewDescription.text = hillfort.description
+            R.id.item_add -> startActivityForResult<HillfortActivity>(0)
         }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onHillfortClick(hillfort: HillfortModel)
+    {
+        startActivityForResult(intentFor<HillfortActivity>().putExtra("hillfort_edit", hillfort), 0)
     }
 }
