@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.wit.hillfort.HillfortActivity">
+    tools:context="org.wit.hillfort.activities.HillfortActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/mainToolbar"
@@ -48,7 +48,7 @@
                 android:orientation="vertical">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/placemarkTitle"
+                    android:id="@+id/hillfortTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -60,7 +60,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"/>
                 <Button
-                    android:id="@+id/btnAdd"
+                    android:id="@+id/buttonAdd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
