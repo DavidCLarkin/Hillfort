@@ -34,8 +34,9 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
         app = application as MainApp
-        toolbarAdd.title = title
-        setSupportActionBar(toolbarAdd)
+
+        mainToolbar.title = title
+        setSupportActionBar(mainToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         info("Working")
 
@@ -92,12 +93,17 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
         }
 
+        buttonDelete.setOnClickListener {
+            app.hillforts.delete(hillfort.copy())
+            info("Delete Clicked")
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean
     {
         menuInflater.inflate(R.menu.menu_hillfort, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     // actions on click menu items
