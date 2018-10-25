@@ -45,6 +45,18 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
 
     override fun update(hillfort: HillfortModel)
     {
+        var foundHillfort: HillfortModel? = hillforts.find { hf -> hf.id == hillfort.id }
+        if(foundHillfort != null)
+        {
+            foundHillfort.title = hillfort.title
+            foundHillfort.description = hillfort.description
+            foundHillfort.image = hillfort.image
+            foundHillfort.lat = hillfort.lat
+            foundHillfort.long = hillfort.long
+            foundHillfort.zoom = hillfort.zoom
+        }
+
+        serialize()
     }
 
     private fun serialize()
