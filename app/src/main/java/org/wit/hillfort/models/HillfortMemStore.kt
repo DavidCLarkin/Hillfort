@@ -34,6 +34,9 @@ class HillfortMemStore : HillfortStore, AnkoLogger
             foundHillfort.title = hillfort.title
             foundHillfort.description = hillfort.description
             foundHillfort.image = hillfort.image
+            foundHillfort.lat = hillfort.lat
+            foundHillfort.long = hillfort.long
+            foundHillfort.zoom = hillfort.zoom
             logAll()
         }
     }
