@@ -7,10 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_hillfort.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import org.wit.hillfort.R
 import org.wit.hillfort.helpers.readImage
 import org.wit.hillfort.helpers.readImageFromPath
@@ -118,6 +115,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
 
         buttonDelete.setOnClickListener {
             app.hillforts.delete(hillfort.copy())
+            startActivity(intentFor<HillfortListActivity>()) //return to main screen
             info("Delete Clicked")
         }
 
@@ -161,23 +159,24 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                         info("size: ${hillfort.images.size}")
                         if(i == 0) {
                             hillfortImage0.setImageBitmap(readImage(this, resultCode, data))
-                            break
+                            //break
                         }
                         else if(i == 1) {
                             hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
-                            break
+                            //break
                         }
                         else if(i == 2) {
                             hillfortImage2.setImageBitmap(readImage(this, resultCode, data))
-                            break
+                            //break
                         }
                         else if(i == 3) {
                             hillfortImage3.setImageBitmap(readImage(this, resultCode, data))
-                            break
+                           // break
                         }
+                        //break
                     }
 
-                    chooseImage.setText("Change Hillfort image")
+                    chooseImage.setText(R.string.change_hillfort_image)
                     /*
                     hillfort.image = data.getData().toString()
                     hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
