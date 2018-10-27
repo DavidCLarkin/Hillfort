@@ -18,6 +18,7 @@ import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
+import kotlin.math.log
 
 
 class HillfortActivity : AppCompatActivity(), AnkoLogger
@@ -48,10 +49,32 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             hillfortTitle.setText(hillfort.title)
             description.setText(hillfort.description)
             buttonAdd.setText(R.string.save_hillfort)
-            hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
-            if(hillfort.image != null)
+
+            for((i,image) in hillfort.images.withIndex())
+            {
+                info("size: ${hillfort.images.size}")
+                if(i == 0) {
+                    hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                }
+                else if(i == 1) {
+                    hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                }
+                else if(i == 2) {
+                    hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+                }
+                else if(i == 3) {
+                    hillfortImage3.setImageBitmap(readImageFromPath(this, hillfort.images.get(3)))
+                }
+            }
+
+            /*if(hillfort.images != null)
             {
                 chooseImage.setText(R.string.change_hillfort_image)
+            }
+            */
+            if(!hillfort.images.isEmpty())
+            {
+                chooseImage.setText("Change Hillfort images")
             }
         }
 
@@ -128,9 +151,38 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             {
                 if(data != null)
                 {
+                    if(hillfort.images.size < 4)
+                        hillfort.images.add(data.getData().toString())
+                    else
+                        info("Full")
+
+                    for((i,image) in hillfort.images.withIndex())
+                    {
+                        info("size: ${hillfort.images.size}")
+                        if(i == 0) {
+                            hillfortImage0.setImageBitmap(readImage(this, resultCode, data))
+                            break
+                        }
+                        else if(i == 1) {
+                            hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
+                            break
+                        }
+                        else if(i == 2) {
+                            hillfortImage2.setImageBitmap(readImage(this, resultCode, data))
+                            break
+                        }
+                        else if(i == 3) {
+                            hillfortImage3.setImageBitmap(readImage(this, resultCode, data))
+                            break
+                        }
+                    }
+
+                    chooseImage.setText("Change Hillfort image")
+                    /*
                     hillfort.image = data.getData().toString()
-                    hillfortImage.setImageBitmap(readImage(this, resultCode, data))
+                    hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
                     chooseImage.setText(R.string.change_hillfort_image)
+                    */
                 }
             }
             LOCATION_REQUEST ->

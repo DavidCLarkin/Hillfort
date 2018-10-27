@@ -36,7 +36,9 @@ class HillfortAdapter constructor(private var hillforts: List<HillfortModel>, pr
         {
             itemView.viewTitle.text = hillfort.title
             itemView.viewDescription.text = hillfort.description
-            itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, hillfort.image))
+            for(image in hillfort.images) {
+                itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, image))
+            }
             itemView.setOnClickListener { listener.onHillfortClick(hillfort) }
         }
     }

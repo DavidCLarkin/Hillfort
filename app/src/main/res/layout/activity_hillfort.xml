@@ -85,7 +85,23 @@
                     android:textSize="16sp"/>
 
                 <ImageView
-                    android:id="@+id/hillfortImage"
+                    android:id="@+id/hillfortImage0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_launcher"/>
+
+                <ImageView
+                    android:id="@+id/hillfortImage1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_launcher"/>
+                <ImageView
+                    android:id="@+id/hillfortImage2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_launcher"/>
+                <ImageView
+                    android:id="@+id/hillfortImage3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@mipmap/ic_launcher"/>
