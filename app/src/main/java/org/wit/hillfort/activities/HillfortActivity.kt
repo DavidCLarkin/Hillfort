@@ -38,6 +38,29 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         info("Working")
 
+        for((i,image) in hillfort.images.withIndex())
+        {
+            info("size: ${hillfort.images.size}")
+            if(i == 0) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+            }
+            else if(i == 1) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+            }
+            else if(i == 2) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+            }
+            else if(i == 3) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+                hillfortImage3.setImageBitmap(readImageFromPath(this, hillfort.images.get(3)))
+            }
+        }
+
         //If edit, get the object and set view values
         if(intent.hasExtra("hillfort_edit"))
         {
@@ -100,6 +123,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
 
         chooseImage.setOnClickListener {
             showImagePicker(this, IMAGE_REQUEST)
+            //recreate()
         }
 
         hillfortLocation.setOnClickListener {
@@ -158,20 +182,22 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                     {
                         info("size: ${hillfort.images.size}")
                         if(i == 0) {
-                            hillfortImage0.setImageBitmap(readImage(this, resultCode, data))
-                            //break
+                            hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
                         }
                         else if(i == 1) {
-                            hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
-                            //break
+                            hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                            hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
                         }
                         else if(i == 2) {
-                            hillfortImage2.setImageBitmap(readImage(this, resultCode, data))
-                            //break
+                            hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                            hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                            hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
                         }
                         else if(i == 3) {
-                            hillfortImage3.setImageBitmap(readImage(this, resultCode, data))
-                           // break
+                            hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                            hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                            hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+                            hillfortImage3.setImageBitmap(readImageFromPath(this, hillfort.images.get(3)))
                         }
                         //break
                     }
