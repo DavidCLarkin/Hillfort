@@ -15,7 +15,7 @@ class SplashScreenActivity : AppCompatActivity()
     internal val runnable: Runnable = Runnable {
         if(!isFinishing)
         {
-            val intent = Intent(applicationContext, HillfortListActivity::class.java)
+            val intent = Intent(applicationContext, SigninActivity::class.java)
             startActivity(intent)
             finish()
         }
