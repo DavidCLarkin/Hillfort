@@ -14,7 +14,8 @@ class SigninActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        signin.setOnClickListener {
+        signin.setOnClickListener()
+        {
             print("clicked sign in")
             val intent = Intent(applicationContext, HillfortListActivity::class.java)
             startActivity(intent)

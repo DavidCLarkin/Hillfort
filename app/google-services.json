@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1050129674049",
+    "firebase_url": "https://proven-cosmos-220514.firebaseio.com",
+    "project_id": "proven-cosmos-220514",
+    "storage_bucket": "proven-cosmos-220514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050129674049:android:6473faa3ccb71f42",
+        "android_client_info": {
+          "package_name": "org.wit.hillfort"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050129674049-6g4vhm28389jheehlrcj5rhro019n82n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9bkleH1bQQXSZKSUtXOvDeX81UXXZPj0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

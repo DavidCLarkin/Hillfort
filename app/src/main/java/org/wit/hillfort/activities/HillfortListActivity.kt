@@ -42,6 +42,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener
         when (item?.itemId)
         {
             R.id.action_add -> startActivityForResult<HillfortActivity>(0)
+            R.id.action_logout -> startActivityForResult<SigninActivity>(0)
             //Other options to go here
         }
         return super.onOptionsItemSelected(item)

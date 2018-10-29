@@ -1,10 +1,14 @@
 package org.wit.hillfort.activities
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.*
@@ -15,6 +19,9 @@ import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.xml.datatype.DatatypeConstants.MONTHS
 import kotlin.math.log
 
 
@@ -36,6 +43,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         mainToolbar.title = title
         setSupportActionBar(mainToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         info("Working")
 
         for((i,image) in hillfort.images.withIndex())
@@ -66,10 +74,14 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         {
             edit = true
             hillfort = intent.extras.getParcelable<HillfortModel>("hillfort_edit")
+
+            // Set the variables to the hillforts data
             hillfortTitle.setText(hillfort.title)
             description.setText(hillfort.description)
             buttonAdd.setText(R.string.save_hillfort)
             checkboxVisited.isChecked = hillfort.visited
+            notes.setText(hillfort.notes)
+            date.setText(hillfort.date)
 
             for((i,image) in hillfort.images.withIndex())
             {
@@ -99,22 +111,41 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             }
         }
 
-        checkboxVisited.setOnClickListener {
+        checkboxVisited.setOnClickListener()
+        {
             info("Clciked")
             if (checkboxVisited.isChecked)
             {
                 hillfort.visited = true
+
+                val calendar = Calendar.getInstance()
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+                val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{DatePicker, mYear, mMonth, mDay ->
+                    date.setText("" + mDay + "/" + mMonth + "/" + mYear)
+                }, year, month, day )
+
+                dpd.show()
+                hillfort.date = date.text.toString()
             }
             else
             {
                 hillfort.visited = false
+                date.setText("")
+                hillfort.date = ""
             }
         }
+
 
         buttonAdd.setOnClickListener()
         {
             hillfort.title = hillfortTitle.text.toString()
             hillfort.description = description.text.toString()
+            hillfort.notes = notes.text.toString()
+            hillfort.date = date.text.toString()
+
             if (hillfort.title.isEmpty()) {
                 toast(R.string.enter_hillfort_title)
             }
