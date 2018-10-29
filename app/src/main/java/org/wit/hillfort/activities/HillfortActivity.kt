@@ -69,6 +69,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             hillfortTitle.setText(hillfort.title)
             description.setText(hillfort.description)
             buttonAdd.setText(R.string.save_hillfort)
+            checkboxVisited.isChecked = hillfort.visited
 
             for((i,image) in hillfort.images.withIndex())
             {
@@ -95,6 +96,18 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             if(!hillfort.images.isEmpty())
             {
                 chooseImage.setText("Change Hillfort images")
+            }
+        }
+
+        checkboxVisited.setOnClickListener {
+            info("Clciked")
+            if (checkboxVisited.isChecked)
+            {
+                hillfort.visited = true
+            }
+            else
+            {
+                hillfort.visited = false
             }
         }
 

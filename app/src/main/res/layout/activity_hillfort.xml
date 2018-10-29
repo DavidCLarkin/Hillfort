@@ -123,6 +123,22 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"/>
 
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/checkboxVisited"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Visited"
+                        android:textSize="18dp"/>
+
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/buttonAdd"
                     android:layout_width="match_parent"
