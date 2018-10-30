@@ -8,8 +8,8 @@ import android.view.*
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
-import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
+import org.wit.hillfort.R
 import org.wit.hillfort.models.HillfortModel
 
 class HillfortListActivity : AppCompatActivity(), HillfortListener
@@ -42,7 +42,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener
         when (item?.itemId)
         {
             R.id.action_add -> startActivityForResult<HillfortActivity>(0)
-            R.id.action_logout -> startActivityForResult<SigninActivity>(0)
+            R.id.action_logout -> startActivityForResult<SignInActivity>(0)
             //Other options to go here
         }
         return super.onOptionsItemSelected(item)
