@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.NavUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.DatePicker
@@ -160,8 +161,8 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                     app.hillforts.create(hillfort.copy())
                 }
                 info("add Button Pressed: $hillfortTitle")
+                startActivity(intentFor<HillfortListActivity>()) //return to main screen
                 setResult(AppCompatActivity.RESULT_OK)
-                finish()
             }
         }
 
@@ -200,9 +201,18 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
     {
         when (item?.itemId)
         {
-            R.id.item_cancel ->
+            R.id.action_cancel ->
             {
-                finish()
+                info { "cancel lcicked" }
+                startActivity(intentFor<HillfortListActivity>()) //return
+                //finish()
+            }
+            R.id.action_delete ->
+            {
+                info { "delete clicked" }
+                app.hillforts.delete(hillfort.copy())
+                startActivity(intentFor<HillfortListActivity>()) //return to main screen
+
             }
         }
         return super.onOptionsItemSelected(item)

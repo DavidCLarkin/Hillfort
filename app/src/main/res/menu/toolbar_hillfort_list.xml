@@ -15,27 +15,9 @@
         android:icon="@android:drawable/ic_menu_revert"
         />
     <item
-        android:id="@+id/action_up"
-        android:title="Up"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_upload"
-        />
-    <item
-        android:id="@+id/action_cancel"
-        android:title="Cancel"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        />
-    <item
-        android:id="@+id/action_delete"
-        android:title="Delete"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_input_delete"
-        />
-    <item
         android:id="@+id/action_settings"
         android:title="Settings"
         app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_upload"
+        android:icon="@android:drawable/ic_menu_preferences"
         />
 </menu>

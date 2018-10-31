@@ -9,4 +9,4 @@ data class UserModel(var id: Long = 0,
                      var password: String = "",
                      var numberOfHillforts: Int = 0,
                      var numberVisited: Int = 0,
-                     var hillforts: ArrayList<HillfortModel>) : Parcelable
+                     var hillforts: MutableList<HillfortModel> = arrayListOf()) : Parcelable

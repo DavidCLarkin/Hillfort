@@ -13,11 +13,18 @@ val user_GsonBuilder = GsonBuilder().setPrettyPrinting().create()
 val user_listType = object: TypeToken<ArrayList<UserModel>>() {}.type
 
 
+fun generateUserRandomId(): Long
+{
+    return Random().nextLong()
+}
+
 class UserJSONStore : UserStore, AnkoLogger
 {
 
     val context: Context
-    var users = mutableListOf<UserModel>()
+    companion object {
+        var users = mutableListOf<UserModel>()
+    }
 
     constructor(context: Context)
     {
@@ -30,7 +37,7 @@ class UserJSONStore : UserStore, AnkoLogger
 
     override fun create(user: UserModel)
     {
-        user.id = generateRandomId()
+        user.id = generateUserRandomId()
         users.add(user)
         serialize()
     }

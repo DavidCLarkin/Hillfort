@@ -33,7 +33,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean
     {
-        menuInflater.inflate(R.menu.toolbar_menu, menu) //set toolbar to custom made
+        menuInflater.inflate(R.menu.toolbar_hillfort_list, menu) //set toolbar to custom made
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -41,8 +41,21 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener
     {
         when (item?.itemId)
         {
-            R.id.action_add -> startActivityForResult<HillfortActivity>(0)
-            R.id.action_logout -> startActivityForResult<SignInActivity>(0)
+            R.id.action_add ->
+            {
+                startActivityForResult<HillfortActivity>(0)
+                finish()
+            }
+            R.id.action_logout ->
+            {
+                startActivityForResult<SignInActivity>(0)
+                finish()
+            }
+            R.id.action_settings ->
+            {
+                //startActivityForResult<SettingsActivity>(0)
+                //finish()
+            }
             //Other options to go here
         }
         return super.onOptionsItemSelected(item)

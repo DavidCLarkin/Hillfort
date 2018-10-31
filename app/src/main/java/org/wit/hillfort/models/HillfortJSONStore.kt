@@ -20,7 +20,10 @@ fun generateRandomId(): Long
 class HillfortJSONStore : HillfortStore, AnkoLogger
 {
     val context: Context
-    var hillforts = mutableListOf<HillfortModel>()
+    companion object {
+        var hillforts = mutableListOf<HillfortModel>()
+    }
+    //var hillforts = mutableListOf<HillfortModel>()
 
     constructor(context: Context)
     {
