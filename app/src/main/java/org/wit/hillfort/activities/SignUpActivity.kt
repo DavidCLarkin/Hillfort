@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.*
@@ -43,18 +44,19 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
                 val hillfortsFiltered: List<HillfortModel> = app.hillforts.findAll().filter { it.usersID == user.id }
                 user.hillforts = hillfortsFiltered as ArrayList<HillfortModel>
                 info("$user.username, $user.password")
-                /*for (fort in user.hillforts)
-            {
-                info(fort.toString())
-            }
-            */
+
                 info("clicked sign up")
 
-                app.users.create(user.copy())
+                if(user.password == retypePassword.text.toString()) {
+                    info { "worked" }
+                    app.users.create(user.copy())
+                    val intent = Intent(applicationContext, SignInActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                else
+                    toast("Please make sure the two passwords are the same")
 
-                val intent = Intent(applicationContext, SignInActivity::class.java)
-                startActivity(intent)
-                finish()
             }
             catch (e:Exception) {}
         }

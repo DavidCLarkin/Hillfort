@@ -20,6 +20,8 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
 {
 
     lateinit var app: MainApp
+    var success: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -31,26 +33,24 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
         signin.setOnClickListener()
         {
             info("Users Size: ${users.size}")
-            try
-            {
+            try {
                 users
                     .forEach { user ->
-                        if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == user.password)
-                        {
+                        if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == user.password) {
+                            success = true
                             val intent = Intent(applicationContext, HillfortListActivity::class.java)
                             intent.putExtra("user", user)
                             startActivity(intent)
                             finish()
                         }
-                        else
-                        {
-                            val toast = Toast.makeText(applicationContext,
-                                "Incorrect username or password", Toast.LENGTH_SHORT)
-                            toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0)
-                            toast.duration = Toast.LENGTH_SHORT
-                            toast.show()
-                        }
                     }
+                if(!success) {
+                    val toast = Toast.makeText(applicationContext,
+                        "Incorrect username or password", Toast.LENGTH_SHORT)
+                    toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0)
+                    toast.duration = Toast.LENGTH_SHORT
+                    toast.show()
+                }
             }
             catch (e: Exception)
             {

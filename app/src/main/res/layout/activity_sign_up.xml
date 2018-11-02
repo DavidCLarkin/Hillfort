@@ -48,7 +48,21 @@
             <EditText
                 android:id="@+id/passwordSignUp"
                 android:layout_marginTop="20dp"
+                android:inputType="textPassword"
                 android:hint="Password"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="13dp"
+                android:textColorHint="#808080"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"/>
+
+            <EditText
+                android:id="@+id/retypePassword"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                android:hint="Retype Password"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="13dp"
                 android:textColorHint="#808080"
