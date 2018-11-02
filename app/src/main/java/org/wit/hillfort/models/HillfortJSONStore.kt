@@ -103,6 +103,7 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
         }
 
         serialize()
+        deserialize()
     }
 
     private fun serialize()

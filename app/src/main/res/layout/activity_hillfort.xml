@@ -36,7 +36,7 @@
                 android:id="@+id/toolbarAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleTextColor="@color/colorPrimary"/>
+                android:theme="@style/ToolbarTheme"/>
         </android.support.design.widget.AppBarLayout>
 
         <ScrollView

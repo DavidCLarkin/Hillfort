@@ -8,6 +8,7 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.intentFor
 import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.*
@@ -26,7 +27,7 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
 
         app = application as MainApp
 
-        signUpToolbar.title = title
+        signUpToolbar.setTitle(R.string.create_account)
         setSupportActionBar(signUpToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -59,7 +60,7 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) : Boolean
+    /*override fun onOptionsItemSelected(item: MenuItem) : Boolean
     {
         when (item.itemId)
         {
@@ -68,12 +69,13 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
                 try
                 {
                     info { "tested" }
-                    NavUtils.navigateUpFromSameTask(this)
-                    //finish()
+                    startActivity(intentFor<SignInActivity>())
+                    finish()
                 }
                 catch (e: Exception) {}
             }
         }
         return super.onOptionsItemSelected(item)
     }
+    */
 }

@@ -30,10 +30,16 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         setContentView(R.layout.activity_hillfort_list)
         app = application as MainApp
 
-        user = intent.getParcelableExtra("user") as UserModel
+        try {
+            user = intent.getParcelableExtra("user") as UserModel
+        }
+        catch (e: Exception)
+        {
+        }
+
         info { "current user: "+ user }
 
-        toolbarMain.title = title
+        toolbarMain.setTitle(R.string.hillfort_list)
         setSupportActionBar(toolbarMain)
 
         val layoutManager = LinearLayoutManager(this)
@@ -42,8 +48,6 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         listToUse = app.hillforts.findAll().filter { it.usersID == user.id } //filter list by user id only
         recyclerView.adapter = HillfortAdapter(listToUse, this)
 
-        //var foundUser: UserModel? = app.users.findAll().find { it -> it.id == user.id }
-        //recyclerView.adapter = HillfortAdapter(user.hillforts, this)
         loadHillforts()
 
     }
@@ -65,7 +69,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
                     val intent = Intent(applicationContext, HillfortActivity::class.java)
                     intent.putExtra("user", user)
                     startActivity(intent)
-                    finish()
+                    //finish()
                 }
                 catch (e: Exception) {}
             }
@@ -88,7 +92,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
                     val intent = Intent(applicationContext, SettingsActivity::class.java)
                     intent.putExtra("user", user)
                     startActivity(intent)
-                    finish()
+                    //finish()
                 }
                 catch (e:Exception) {}
             }

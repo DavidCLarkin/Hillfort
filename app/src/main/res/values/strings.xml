@@ -15,4 +15,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_login">Sign in</string>
     <string name="splash_screen_text">Hillforts</string>
+    <string name="settings">Settings</string>
+    <string name="create_account">Create an Account</string>
+    <string name="hillfort_list">List of Hillforts</string>
+    <string name="edit_hillfort">Edit Hillfort</string>
 </resources>

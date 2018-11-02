@@ -26,9 +26,8 @@ class SettingsActivity : AppCompatActivity(), AnkoLogger
 
         user = intent.getParcelableExtra("user")
 
-        settingsToolbar.title = "Settings"
+        settingsToolbar.setTitle(R.string.settings)
         setSupportActionBar(settingsToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         usernameField.setText(user.username)
         passwordField.setText(user.password)
@@ -42,27 +41,15 @@ class SettingsActivity : AppCompatActivity(), AnkoLogger
 
             app.users.update(user.copy())
 
-            startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
+            startActivityForResult(intentFor<HillfortListActivity>().putExtra("user", user), 1) //return to main screen
             setResult(AppCompatActivity.RESULT_OK)
 
         }
 
+        cancelSettings.setOnClickListener {
+            startActivity(intentFor<HillfortListActivity>().putExtra("user", user))
+        }
+
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean
-    {
-        when (item?.itemId)
-        {
-            R.id.up ->
-            {
-                try {
-                    info { "home lcicked" }
-                    startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
-                    //finish()
-                }
-                catch (e:Exception){}
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

@@ -32,7 +32,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
 {
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
-    //var location = Location(52.245696, -7.139102, 15f)
+
     var edit = false
     var hillfort = HillfortModel()
     var user = UserModel()
@@ -44,9 +44,9 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         setContentView(R.layout.activity_hillfort)
         app = application as MainApp
 
-        mainToolbar.title = title
+        mainToolbar.setTitle(R.string.create_hillfort)
         setSupportActionBar(mainToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         user = intent.getParcelableExtra("user") as UserModel
 
@@ -80,6 +80,8 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         {
             edit = true
             hillfort = intent.extras.getParcelable<HillfortModel>("hillfort_edit")
+            mainToolbar.setTitle(R.string.edit_hillfort)
+
 
             // Set the variables to the hillforts data
             hillfortTitle.setText(hillfort.title)
@@ -166,10 +168,9 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 else
                 {
                     app.hillforts.create(hillfort.copy(), user.copy())
-                    //app.users.createHillfort(user.copy(), hillfort.copy()) //TODO make this work and update the json
 
                 }
-                info("add Button Pressed: $hillfortTitle")
+
                 startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
                 setResult(AppCompatActivity.RESULT_OK)
             }
@@ -210,7 +211,6 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
     {
         when (item?.itemId)
         {
-
             R.id.action_cancel ->
             {
                 try
@@ -218,7 +218,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
 
                     info { "cancel lcicked" }
                     startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
-                    //finish()
+                    finish()
                 }
                 catch (e:Exception){}
             }

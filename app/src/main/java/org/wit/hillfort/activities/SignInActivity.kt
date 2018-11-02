@@ -64,7 +64,7 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
             print("clicked sign up")
             val intent = Intent(applicationContext, SignUpActivity::class.java)
             startActivity(intent)
-            finish()
+            //finish()
         }
 
         nosignin.setOnClickListener()
