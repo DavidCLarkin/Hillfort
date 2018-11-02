@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.wit.hillfort.helpers.*
 import java.lang.Exception
 import java.util.*
@@ -60,18 +61,21 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
         deserialize()
     }
 
-    override fun delete(hillfort: HillfortModel)
+    override fun delete(hillfort: HillfortModel, user: UserModel)
     {
         //TODO Remove hillfort and decrement values eg numberVisited/numberOfHillforts
+        user.hillforts.remove(hillfort)
         hillforts.remove(hillfort)
         serialize()
     }
 
-    override fun update(hillfort: HillfortModel)
+    override fun update(hillfort: HillfortModel, user: UserModel)
     {
         var foundHillfort: HillfortModel? = hillforts.find { hf -> hf.id == hillfort.id }
-        if(foundHillfort != null)
+        var userHillfort: HillfortModel? = user.hillforts.find { userHillfort -> userHillfort.id == hillfort.id }
+        if(foundHillfort != null && userHillfort != null)
         {
+
             foundHillfort.title = hillfort.title
             foundHillfort.description = hillfort.description
             foundHillfort.images = hillfort.images
@@ -83,6 +87,19 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
             foundHillfort.notes = hillfort.notes
             foundHillfort.date = hillfort.date
             foundHillfort.usersID = hillfort.usersID
+
+            userHillfort.title = hillfort.title
+            userHillfort.description = hillfort.description
+            userHillfort.images = hillfort.images
+            //foundHillfort.image = hillfort.image
+            userHillfort.lat = hillfort.lat
+            userHillfort.long = hillfort.long
+            userHillfort.zoom = hillfort.zoom
+            userHillfort.visited = hillfort.visited
+            userHillfort.notes = hillfort.notes
+            userHillfort.date = hillfort.date
+            userHillfort.usersID = hillfort.usersID
+
         }
 
         serialize()

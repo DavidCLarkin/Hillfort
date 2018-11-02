@@ -32,7 +32,7 @@ class SettingsActivity : AppCompatActivity(), AnkoLogger
 
         usernameField.setText(user.username)
         passwordField.setText(user.password)
-        numbOfHillforts.text = numbOfHillforts.text.toString() + " ${user.numberOfHillforts}"
+        numbOfHillforts.text = numbOfHillforts.text.toString() + " ${user.hillforts.size}"
         numbOfHillfortsVisited.text = numbOfHillfortsVisited.text.toString()+ " ${user.numberVisited}"
 
 

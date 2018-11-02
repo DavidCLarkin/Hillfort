@@ -153,14 +153,15 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             hillfort.notes = notes.text.toString()
             hillfort.date = date.text.toString()
 
-            if (hillfort.title.isEmpty()) {
+            if (hillfort.title.isEmpty())
+            {
                 toast(R.string.enter_hillfort_title)
             }
             else
             {
                 if(edit)
                 {
-                    app.hillforts.update(hillfort.copy())
+                    app.hillforts.update(hillfort.copy(), user.copy())
                 }
                 else
                 {
@@ -191,7 +192,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         }
 
         buttonDelete.setOnClickListener {
-            app.hillforts.delete(hillfort.copy())
+            app.hillforts.delete(hillfort.copy(), user.copy())
             startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
             info("Delete Clicked")
         }
@@ -227,7 +228,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 try
                 {
                     info { "delete clicked" }
-                    app.hillforts.delete(hillfort.copy())
+                    app.hillforts.delete(hillfort.copy(), user.copy())
                     startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
                 }
                 catch (e:Exception){}
