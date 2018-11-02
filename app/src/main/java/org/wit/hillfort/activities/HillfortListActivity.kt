@@ -16,6 +16,7 @@ import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.R
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
+import java.lang.Exception
 
 class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
 {
@@ -59,24 +60,37 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         {
             R.id.action_add ->
             {
-                val intent = Intent(applicationContext, HillfortActivity::class.java)
-                intent.putExtra("user", user)
-                startActivity(intent)
-                finish()
+                try
+                {
+                    val intent = Intent(applicationContext, HillfortActivity::class.java)
+                    intent.putExtra("user", user)
+                    startActivity(intent)
+                    finish()
+                }
+                catch (e: Exception) {}
             }
             R.id.action_logout ->
             {
-                val intent = Intent(applicationContext, SignInActivity::class.java)
-                intent.putExtra("user", user)
-                startActivity(intent)
-                finish()
+                try
+                {
+                    val intent = Intent(applicationContext, SignInActivity::class.java)
+                    intent.putExtra("user", user)
+                    startActivity(intent)
+                    finish()
+                }
+                catch (e: Exception) {}
+
             }
             R.id.action_settings ->
             {
-                val intent = Intent(applicationContext, SettingsActivity::class.java)
-                intent.putExtra("user", user)
-                startActivity(intent)
-                finish()
+                try
+                {
+                    val intent = Intent(applicationContext, SettingsActivity::class.java)
+                    intent.putExtra("user", user)
+                    startActivity(intent)
+                    finish()
+                }
+                catch (e:Exception) {}
             }
             //Other options to go here
         }

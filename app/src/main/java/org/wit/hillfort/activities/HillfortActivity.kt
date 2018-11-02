@@ -21,6 +21,7 @@ import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.UserModel
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
@@ -208,18 +209,28 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
     {
         when (item?.itemId)
         {
+
             R.id.action_cancel ->
             {
-                info { "cancel lcicked" }
-                startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
-                //finish()
+                try
+                {
+
+                    info { "cancel lcicked" }
+                    startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
+                    //finish()
+                }
+                catch (e:Exception){}
             }
+
             R.id.action_delete ->
             {
-                info { "delete clicked" }
-                app.hillforts.delete(hillfort.copy())
-                startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
-
+                try
+                {
+                    info { "delete clicked" }
+                    app.hillforts.delete(hillfort.copy())
+                    startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
+                }
+                catch (e:Exception){}
             }
         }
         return super.onOptionsItemSelected(item)

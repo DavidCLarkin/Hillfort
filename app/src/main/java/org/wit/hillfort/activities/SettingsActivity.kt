@@ -11,6 +11,7 @@ import org.jetbrains.anko.intentFor
 import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
+import java.lang.Exception
 
 class SettingsActivity : AppCompatActivity(), AnkoLogger
 {
@@ -54,9 +55,12 @@ class SettingsActivity : AppCompatActivity(), AnkoLogger
         {
             R.id.up ->
             {
-                info { "home lcicked" }
-                startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
-                //finish()
+                try {
+                    info { "home lcicked" }
+                    startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
+                    //finish()
+                }
+                catch (e:Exception){}
             }
         }
         return super.onOptionsItemSelected(item)

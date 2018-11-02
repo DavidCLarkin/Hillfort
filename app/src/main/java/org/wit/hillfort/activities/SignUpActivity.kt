@@ -11,6 +11,7 @@ import org.jetbrains.anko.info
 import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.*
+import java.lang.Exception
 
 class SignUpActivity : AppCompatActivity(), AnkoLogger
 {
@@ -32,25 +33,29 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
 
         firstSignUp.setOnClickListener()
         {
-            user.username = usernameSignUp.text.toString()
-            user.password = passwordSignUp.text.toString()
-            user.id = generateUserRandomId()
+            try
+            {
+                user.username = usernameSignUp.text.toString()
+                user.password = passwordSignUp.text.toString()
+                user.id = generateUserRandomId()
 
-            val hillfortsFiltered : List<HillfortModel> = app.hillforts.findAll().filter { it.usersID == user.id }
-            user.hillforts = hillfortsFiltered as ArrayList<HillfortModel>
-            info("$user.username, $user.password")
-            /*for (fort in user.hillforts)
+                val hillfortsFiltered: List<HillfortModel> = app.hillforts.findAll().filter { it.usersID == user.id }
+                user.hillforts = hillfortsFiltered as ArrayList<HillfortModel>
+                info("$user.username, $user.password")
+                /*for (fort in user.hillforts)
             {
                 info(fort.toString())
             }
             */
-            info("clicked sign up")
+                info("clicked sign up")
 
-            app.users.create(user.copy())
+                app.users.create(user.copy())
 
-            val intent = Intent(applicationContext, SignInActivity::class.java)
-            startActivity(intent)
-            finish()
+                val intent = Intent(applicationContext, SignInActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            catch (e:Exception) {}
         }
     }
 
@@ -60,9 +65,13 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
         {
             R.id.home ->
             {
-                info { "tested" }
-                NavUtils.navigateUpFromSameTask(this)
-                //finish()
+                try
+                {
+                    info { "tested" }
+                    NavUtils.navigateUpFromSameTask(this)
+                    //finish()
+                }
+                catch (e: Exception) {}
             }
         }
         return super.onOptionsItemSelected(item)
