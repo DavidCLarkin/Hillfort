@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
 import org.wit.hillfort.helpers.*
+import java.lang.Exception
 import java.util.*
 
 val JSON_FILE = "hillforts.json"
@@ -21,7 +22,7 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
 {
     val context: Context
     companion object {
-        var hillforts = mutableListOf<HillfortModel>()
+        var hillforts = ArrayList<HillfortModel>()
     }
     //var hillforts = mutableListOf<HillfortModel>()
 
@@ -30,7 +31,14 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
         this.context = context
         if(exists(context, JSON_FILE))
         {
-            deserialize()
+            try {
+
+                deserialize()
+            }
+            catch (e: Exception)
+            {
+
+            }
         }
     }
 
@@ -39,15 +47,22 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
         return hillforts
     }
 
-    override fun create(hillfort: HillfortModel)
+    override fun create(hillfort: HillfortModel, user: UserModel)
     {
         hillfort.id = generateRandomId()
+        hillfort.usersID = user.id
+        user.hillforts.add(hillfort)
+        user.numberOfHillforts++
+        if (hillfort.visited)
+           user.numberVisited++
         hillforts.add(hillfort)
         serialize()
+        deserialize()
     }
 
     override fun delete(hillfort: HillfortModel)
     {
+        //TODO Remove hillfort and decrement values eg numberVisited/numberOfHillforts
         hillforts.remove(hillfort)
         serialize()
     }
@@ -67,6 +82,7 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
             foundHillfort.visited = hillfort.visited
             foundHillfort.notes = hillfort.notes
             foundHillfort.date = hillfort.date
+            foundHillfort.usersID = hillfort.usersID
         }
 
         serialize()

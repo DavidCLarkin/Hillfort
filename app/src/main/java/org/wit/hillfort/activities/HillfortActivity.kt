@@ -20,6 +20,7 @@ import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
+import org.wit.hillfort.models.UserModel
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
@@ -33,6 +34,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
     //var location = Location(52.245696, -7.139102, 15f)
     var edit = false
     var hillfort = HillfortModel()
+    var user = UserModel()
     lateinit var app : MainApp
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -44,6 +46,8 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         mainToolbar.title = title
         setSupportActionBar(mainToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        user = intent.getParcelableExtra("user") as UserModel
 
         info("Working")
 
@@ -79,10 +83,11 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             // Set the variables to the hillforts data
             hillfortTitle.setText(hillfort.title)
             description.setText(hillfort.description)
-            buttonAdd.setText(R.string.save_hillfort)
             checkboxVisited.isChecked = hillfort.visited
             notes.setText(hillfort.notes)
             date.setText(hillfort.date)
+
+            buttonAdd.setText(R.string.save_hillfort)
 
             for((i,image) in hillfort.images.withIndex())
             {
@@ -158,10 +163,12 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 }
                 else
                 {
-                    app.hillforts.create(hillfort.copy())
+                    app.hillforts.create(hillfort.copy(), user.copy())
+                    //app.users.createHillfort(user.copy(), hillfort.copy()) //TODO make this work and update the json
+
                 }
                 info("add Button Pressed: $hillfortTitle")
-                startActivity(intentFor<HillfortListActivity>()) //return to main screen
+                startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
                 setResult(AppCompatActivity.RESULT_OK)
             }
         }
@@ -179,12 +186,12 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 location.long = hillfort.long
                 location.zoom = hillfort.zoom
             }
-            startActivityForResult(intentFor<MapsActivity>().putExtra("location", location), LOCATION_REQUEST)
+            startActivityForResult(intentFor<MapsActivity>().putExtra("location", location).putExtra("user", user), LOCATION_REQUEST)
         }
 
         buttonDelete.setOnClickListener {
             app.hillforts.delete(hillfort.copy())
-            startActivity(intentFor<HillfortListActivity>()) //return to main screen
+            startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
             info("Delete Clicked")
         }
 
@@ -204,14 +211,14 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             R.id.action_cancel ->
             {
                 info { "cancel lcicked" }
-                startActivity(intentFor<HillfortListActivity>()) //return
+                startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
                 //finish()
             }
             R.id.action_delete ->
             {
                 info { "delete clicked" }
                 app.hillforts.delete(hillfort.copy())
-                startActivity(intentFor<HillfortListActivity>()) //return to main screen
+                startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
 
             }
         }

@@ -51,9 +51,10 @@
                 android:padding="10dp"/>
 
             <TextView
+                android:id="@+id/nosignin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forgot Password?"
+                android:text="No Sign In"
                 android:padding="10dp"
                 android:layout_gravity="end"/>
 

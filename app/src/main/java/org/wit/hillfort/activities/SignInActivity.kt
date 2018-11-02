@@ -13,43 +13,63 @@ import org.wit.hillfort.models.UserModel
 import android.view.Gravity
 import android.widget.Toast
 import org.wit.hillfort.main.MainApp
+import java.lang.Exception
 
 
 class SignInActivity : AppCompatActivity(), AnkoLogger
 {
 
-    //lateinit var app: MainApp
+    lateinit var app: MainApp
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        //app = application as MainApp
+        app = application as MainApp
+        val users: List<UserModel> = app.users.findAll()
 
         //If username and password are same as another users username and password, sign in.
         signin.setOnClickListener()
         {
-            info("Users Size: ${UserJSONStore.users.size}")
-            for (user in UserJSONStore.users) //sometimes says it cant convert from HillfortModel to UserModel, but don't know why. Uninstalling and reinstalling app on emulator fixes this though.
-                if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == user.password)
-                {
-                    val intent = Intent(applicationContext, HillfortListActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                else if(username.text.toString().toLowerCase() != user.username || password.text.toString().toLowerCase() != user.password)
-                {
-                    val toast = Toast.makeText(applicationContext,
-                        "Incorrect username or password", Toast.LENGTH_SHORT)
-                    toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
-                    toast.duration = Toast.LENGTH_LONG
-                    toast.show()
-                }
+            info("Users Size: ${users.size}")
+            try
+            {
+                users
+                    .forEach { user ->
+                        if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == user.password)
+                        {
+                            val intent = Intent(applicationContext, HillfortListActivity::class.java)
+                            intent.putExtra("user", user)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else
+                        {
+                            val toast = Toast.makeText(applicationContext,
+                                "Incorrect username or password", Toast.LENGTH_SHORT)
+                            toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0)
+                            toast.duration = Toast.LENGTH_SHORT
+                            toast.show()
+                        }
+                    }
+            }
+            catch (e: Exception)
+            {
+                info { e.toString() }
+            }
+
         }
 
         signup.setOnClickListener()
         {
             print("clicked sign up")
             val intent = Intent(applicationContext, SignUpActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        nosignin.setOnClickListener()
+        {
+            val intent = Intent(applicationContext, HillfortListActivity::class.java)
             startActivity(intent)
             finish()
         }

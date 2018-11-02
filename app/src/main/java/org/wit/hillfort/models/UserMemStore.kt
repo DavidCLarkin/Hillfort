@@ -29,4 +29,28 @@ class UserMemStore : UserStore, AnkoLogger
         user.hillforts.forEach{ if (it.visited) user.numberOfHillforts++ }
         return user.numberVisited
     }
+
+    override fun findAll(): List<UserModel>
+    {
+        return users
+    }
+
+    override fun update(user: UserModel)
+    {
+        var foundUser: UserModel? = users.find { it -> it.id == user.id }
+        if(foundUser != null)
+        {
+            foundUser.id = user.id
+            foundUser.username = user.username
+            foundUser.password = user.password
+            foundUser.hillforts = user.hillforts
+            foundUser.numberVisited = user.numberVisited
+            foundUser.numberOfHillforts = user.numberOfHillforts
+        }
+    }
+
+    override fun createHillfort(user: UserModel, hillfort: HillfortModel) {
+
+    }
+
 }

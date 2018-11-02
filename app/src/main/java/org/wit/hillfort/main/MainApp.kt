@@ -10,12 +10,16 @@ class MainApp : Application(), AnkoLogger
 
     lateinit var hillforts : HillfortStore
     lateinit var users: UserStore
+    lateinit var userStore: UserStore
 
     override fun onCreate()
     {
         super.onCreate()
         users = UserJSONStore(applicationContext)
+        userStore = UserMemStore()
+        //info { users.findAll() }
         hillforts = HillfortJSONStore(applicationContext)
+
         info("Hillfort started")
         //hillforts.add(HillfortModel("First", "Desc 1"))
         //hillforts.add(HillfortModel("Second","Desc 2"))

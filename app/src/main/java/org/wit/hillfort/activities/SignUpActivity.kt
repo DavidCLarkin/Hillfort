@@ -32,18 +32,22 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
 
         firstSignUp.setOnClickListener()
         {
-            user.hillforts = HillfortJSONStore.hillforts
             user.username = usernameSignUp.text.toString()
             user.password = passwordSignUp.text.toString()
             user.id = generateUserRandomId()
+
+            val hillfortsFiltered : List<HillfortModel> = app.hillforts.findAll().filter { it.usersID == user.id }
+            user.hillforts = hillfortsFiltered as ArrayList<HillfortModel>
             info("$user.username, $user.password")
-            for (fort in user.hillforts)
+            /*for (fort in user.hillforts)
             {
                 info(fort.toString())
             }
+            */
             info("clicked sign up")
 
             app.users.create(user.copy())
+
             val intent = Intent(applicationContext, SignInActivity::class.java)
             startActivity(intent)
             finish()

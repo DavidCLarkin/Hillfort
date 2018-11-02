@@ -5,7 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.wit.hillfort.helpers.*
+import java.lang.Exception
 import java.util.*
 
 val USER_JSON_FILE = "users.json"
@@ -23,7 +25,7 @@ class UserJSONStore : UserStore, AnkoLogger
 
     val context: Context
     companion object {
-        var users = mutableListOf<UserModel>()
+        var users = ArrayList<UserModel>()
     }
 
     constructor(context: Context)
@@ -31,16 +33,35 @@ class UserJSONStore : UserStore, AnkoLogger
         this.context = context
         if(exists(context, USER_JSON_FILE))
         {
-            deserialize()
+            try
+            {
+                deserialize()
+            }
+            catch (e: Exception)
+            {
+
+            }
         }
     }
 
     override fun create(user: UserModel)
     {
         user.id = generateUserRandomId()
+        //user.numberVisited = findNumHillfortsVisited(user)
+        //user.numberOfHillforts = findNumHillforts(user)
         users.add(user)
         serialize()
     }
+
+    //not used
+    override fun createHillfort(user: UserModel, hillfort: HillfortModel)
+    {
+        hillfort.id = generateRandomId()
+        user.hillforts.add(hillfort)
+        //update(user)
+        serialize()
+    }
+
 
     override fun findNumHillfortsVisited(user: UserModel): Int
     {
@@ -53,7 +74,26 @@ class UserJSONStore : UserStore, AnkoLogger
         return user.hillforts.size
     }
 
+    override fun findAll(): List<UserModel>
+    {
+        return users
+    }
 
+    override fun update(user: UserModel)
+    {
+        var foundUser: UserModel? = users.find { it -> it.id == user.id }
+        if(foundUser != null)
+        {
+            foundUser.id = user.id
+            foundUser.username = user.username
+            foundUser.password = user.password
+            foundUser.hillforts = user.hillforts
+            foundUser.numberVisited = user.calcNumberVisited()
+            foundUser.numberOfHillforts = user.calcNumberOfHillorts()
+        }
+
+        serialize()
+    }
 
     /*override fun delete(user: UserModel)
     {
@@ -86,12 +126,13 @@ class UserJSONStore : UserStore, AnkoLogger
     private fun serialize()
     {
         val jsonString = user_GsonBuilder.toJson(users, user_listType)
+        info { "JSON: "+jsonString }
         write(context, USER_JSON_FILE, jsonString)
     }
 
     private fun deserialize()
     {
         val jsonString = read(context, USER_JSON_FILE)
-        users = Gson().fromJson(jsonString, listType)
+        users = Gson().fromJson(jsonString, user_listType)
     }
 }
