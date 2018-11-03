@@ -33,10 +33,12 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
         signin.setOnClickListener()
         {
             info("Users Size: ${users.size}")
-            try {
+            try
+            {
                 users
                     .forEach { user ->
-                        if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == user.password) {
+                        if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == user.password)
+                        {
                             success = true
                             val intent = Intent(applicationContext, HillfortListActivity::class.java)
                             intent.putExtra("user", user)
@@ -44,7 +46,8 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
                             finish()
                         }
                     }
-                if(!success) {
+                if(!success)
+                {
                     val toast = Toast.makeText(applicationContext,
                         "Incorrect username or password", Toast.LENGTH_SHORT)
                     toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0)

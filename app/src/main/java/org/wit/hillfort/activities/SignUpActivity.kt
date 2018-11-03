@@ -20,6 +20,7 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
 
     lateinit var app: MainApp
     var user = UserModel()
+    var userValid : Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -45,22 +46,38 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
                 user.hillforts = hillfortsFiltered as ArrayList<HillfortModel>
                 info("$user.username, $user.password")
 
-                info("clicked sign up")
+                userValid = !app.users.findAll().any { it -> user.username == it.username } //check if a user exists
 
-                if(user.password == retypePassword.text.toString()) {
-                    info { "worked" }
-                    app.users.create(user.copy())
-                    val intent = Intent(applicationContext, SignInActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                if(userValid)
+                {
+                    //Username and password can't be empty
+                    if (!usernameSignUp.text.toString().isEmpty() && !passwordSignUp.text.toString().isEmpty())
+                    {
+                        //Username and password length must be greater than 4
+                        if (usernameSignUp.text.toString().length > 4 && passwordSignUp.text.toString().length > 4)
+                        {
+                            //Password input has to be the same as password chosen
+                            if (user.password == retypePassword.text.toString())
+                            {
+                                info { "worked" }
+                                app.users.create(user.copy())
+                                val intent = Intent(applicationContext, SignInActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else
+                                toast("Please make sure the two passwords are the same")
+                        } else
+                            toast("Username or Password length is too short - Must be at least 5 characters")
+                    } else
+                        toast("Username or Password fields cannot be empty")
                 }
                 else
-                    toast("Please make sure the two passwords are the same")
-
+                    toast("User already exists, try another Username")
             }
             catch (e:Exception) {}
         }
     }
+
 
     /*override fun onOptionsItemSelected(item: MenuItem) : Boolean
     {
