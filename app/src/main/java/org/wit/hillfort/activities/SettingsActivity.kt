@@ -2,16 +2,15 @@ package org.wit.hillfort.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.wit.hillfort.R
+import org.wit.hillfort.helpers.decrypt
+import org.wit.hillfort.helpers.encrypt
+import org.wit.hillfort.helpers.publicKey
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
-import java.lang.Exception
 
 class SettingsActivity : AppCompatActivity(), AnkoLogger
 {
@@ -30,14 +29,14 @@ class SettingsActivity : AppCompatActivity(), AnkoLogger
         setSupportActionBar(settingsToolbar)
 
         usernameField.setText(user.username)
-        passwordField.setText(user.password)
+        passwordField.setText(decrypt(user.password))
         numbOfHillforts.text = numbOfHillforts.text.toString() + " ${user.hillforts.size}"
         numbOfHillfortsVisited.text = numbOfHillfortsVisited.text.toString()+ " ${user.numberVisited}"
 
 
         saveSettings.setOnClickListener {
             user.username = usernameField.text.toString()
-            user.password = passwordField.text.toString()
+            user.password = encrypt(passwordField.text.toString(), publicKey) //encrypt if changed
 
             app.users.update(user.copy())
 

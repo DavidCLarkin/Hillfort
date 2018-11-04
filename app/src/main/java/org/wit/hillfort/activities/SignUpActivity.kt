@@ -11,6 +11,7 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.wit.hillfort.R
+import org.wit.hillfort.helpers.*
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.*
 import java.lang.Exception
@@ -33,6 +34,8 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
         setSupportActionBar(signUpToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        //info { "Pub key Sign up : ${publicKey}Key" }
+        //info {"Priv key Sign up :$privateKey"}
 
         firstSignUp.setOnClickListener()
         {
@@ -59,7 +62,8 @@ class SignUpActivity : AppCompatActivity(), AnkoLogger
                             //Password input has to be the same as password chosen
                             if (user.password == retypePassword.text.toString())
                             {
-                                info { "worked" }
+                                user.password = encrypt(user.password, publicKey)
+                                //info { "Encrypted password: ${user.password}" }
                                 app.users.create(user.copy())
                                 val intent = Intent(applicationContext, SignInActivity::class.java)
                                 startActivity(intent)

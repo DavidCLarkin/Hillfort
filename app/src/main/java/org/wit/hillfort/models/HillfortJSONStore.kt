@@ -5,7 +5,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import org.wit.hillfort.helpers.*
 import java.lang.Exception
 import java.util.*
@@ -25,7 +24,6 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
     companion object {
         var hillforts = ArrayList<HillfortModel>()
     }
-    //var hillforts = mutableListOf<HillfortModel>()
 
     constructor(context: Context)
     {
@@ -63,7 +61,6 @@ class HillfortJSONStore : HillfortStore, AnkoLogger
 
     override fun delete(hillfort: HillfortModel, user: UserModel)
     {
-        //TODO Remove hillfort and decrement values eg numberVisited/numberOfHillforts
         user.hillforts.remove(hillfort)
         hillforts.remove(hillfort)
         serialize()

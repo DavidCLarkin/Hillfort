@@ -17,7 +17,6 @@ class MainApp : Application(), AnkoLogger
         super.onCreate()
         users = UserJSONStore(applicationContext)
         userStore = UserMemStore()
-        //info { users.findAll() }
         hillforts = HillfortJSONStore(applicationContext)
 
         info("Hillfort started")

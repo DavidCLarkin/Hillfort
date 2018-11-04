@@ -1,20 +1,14 @@
 package org.wit.hillfort.activities
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.NavUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
-import org.wit.hillfort.helpers.readImage
 import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.main.MainApp
@@ -22,10 +16,7 @@ import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.UserModel
 import java.lang.Exception
-import java.text.SimpleDateFormat
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
-import kotlin.math.log
 
 
 class HillfortActivity : AppCompatActivity(), AnkoLogger
@@ -52,6 +43,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
 
         info("Working")
 
+        //Check size of images list, and show them accordingly
         for((i,image) in hillfort.images.withIndex())
         {
             info("size: ${hillfort.images.size}")
@@ -109,17 +101,13 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 }
             }
 
-            /*if(hillfort.images != null)
-            {
-                chooseImage.setText(R.string.change_hillfort_image)
-            }
-            */
             if(!hillfort.images.isEmpty())
             {
                 chooseImage.setText("Change Hillfort images")
             }
         }
 
+        // When checkbox is checked, display a date picker and set this date.
         checkboxVisited.setOnClickListener()
         {
             info("Clciked")
@@ -148,6 +136,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         }
 
 
+        // Add a new hillfort or update one depending on the context
         buttonAdd.setOnClickListener()
         {
             hillfort.title = hillfortTitle.text.toString()
@@ -181,6 +170,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             //recreate()
         }
 
+        // Set the hillforts Location
         hillfortLocation.setOnClickListener {
             val location = Location(52.245696, -7.139102, 15f)
             if(hillfort.zoom != 0f)
@@ -215,8 +205,6 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             {
                 try
                 {
-
-                    info { "cancel lcicked" }
                     startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
                     finish()
                 }
@@ -227,7 +215,6 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             {
                 try
                 {
-                    info { "delete clicked" }
                     app.hillforts.delete(hillfort.copy(), user.copy())
                     startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
                 }
@@ -276,11 +263,6 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                     }
 
                     chooseImage.setText(R.string.change_hillfort_image)
-                    /*
-                    hillfort.image = data.getData().toString()
-                    hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
-                    chooseImage.setText(R.string.change_hillfort_image)
-                    */
                 }
             }
             LOCATION_REQUEST ->

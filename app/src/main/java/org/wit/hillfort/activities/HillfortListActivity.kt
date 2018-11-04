@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.notification_template_custom_big.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivityForResult
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.R
 import org.wit.hillfort.models.HillfortModel
@@ -30,14 +27,14 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         setContentView(R.layout.activity_hillfort_list)
         app = application as MainApp
 
-        try {
+        // Retrieve the user
+        try
+        {
             user = intent.getParcelableExtra("user") as UserModel
         }
         catch (e: Exception)
         {
         }
-
-        info { "current user: "+ user }
 
         toolbarMain.setTitle(R.string.hillfort_list)
         setSupportActionBar(toolbarMain)
@@ -115,7 +112,6 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
     private fun loadHillforts()
     {
         showHillforts(listToUse)
-        //showHillforts(user.hillforts)
     }
 
     fun showHillforts(hillforts: List<HillfortModel>)
