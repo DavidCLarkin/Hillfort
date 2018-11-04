@@ -20,8 +20,8 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
 
     lateinit var app: MainApp
     var success: Boolean = false
-    var PUBLIC_KEY_FILE = "pubkey.txt"
-    var PRIVATE_KEY_FILE = "privkey.txt"
+    val PUBLIC_KEY_FILE = "pubkey.txt"
+    val PRIVATE_KEY_FILE = "privkey.txt"
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
