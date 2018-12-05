@@ -1,15 +1,13 @@
 package org.wit.hillfort.presenters
 
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
-import org.wit.hillfort.activities.HillfortActivity
-import org.wit.hillfort.activities.HillfortListActivity
-import org.wit.hillfort.activities.HillfortMapsActivity
+import android.content.Intent
+import org.jetbrains.anko.*
+import org.wit.hillfort.activities.*
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
+import org.wit.hillfort.models.UserModel
 
-class PlacemarkListPresenter(val activity: HillfortListActivity)
+class HillfortListPresenter(val activity: HillfortListActivity) : AnkoLogger
 {
 
     var app: MainApp
@@ -18,17 +16,36 @@ class PlacemarkListPresenter(val activity: HillfortListActivity)
         app = activity.application as MainApp
     }
 
-    fun getPlacemarks() = app.hillforts.findAll()
+    fun getHillforts() = app.hillforts.findAll()
 
-    fun doAddPlacemark() {
-        activity.startActivityForResult<HillfortActivity>(0)
+    fun getUserHillforts(user: UserModel) : List<HillfortModel>
+    {
+        return app.hillforts.findAll().filter { it.usersID == user.id } //filter list by user id only
     }
 
-    fun doEditPlacemark(placemark: HillfortModel) {
-        activity.startActivityForResult(activity.intentFor<HillfortActivity>().putExtra("placemark_edit", placemark), 0)
+    fun doSettings(user: UserModel)
+    {
+        info { "settings" }
+        activity.startActivityForResult(activity.intentFor<SettingsActivity>().putExtra("user", user), 0)
     }
 
-    fun doShowPlacemarksMap() {
-        activity.startActivity<HillfortMapsActivity>()
+    fun doLogout(user: UserModel)
+    {
+        activity.startActivityForResult(activity.intentFor<SignInActivity>().putExtra("user", user), 0)
+    }
+
+    fun doAddHillfort(user: UserModel)
+    {
+        activity.startActivityForResult(activity.intentFor<HillfortActivity>().putExtra("user", user), 0)
+    }
+
+    fun doEditHillfort(hillfort: HillfortModel, user: UserModel)
+    {
+        activity.startActivityForResult(activity.intentFor<HillfortActivity>().putExtra("hillfort_edit", hillfort).putExtra("user", user), 0)
+    }
+
+    fun doShowHillfortsMap(user: UserModel)
+    {
+        activity.startActivityForResult(activity.intentFor<HillfortMapsActivity>().putExtra("user", user), 0)
     }
 }

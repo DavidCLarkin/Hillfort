@@ -7,25 +7,22 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.intentFor
-import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.R
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.presenters.HillfortListPresenter
 import java.lang.Exception
 
 class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
 {
-    lateinit var app: MainApp
     var user = UserModel()
     var listToUse: List<HillfortModel> = arrayListOf() //list to show to specific users
+    lateinit var presenter: HillfortListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_list)
-        app = application as MainApp
 
         // Retrieve the user
         try
@@ -39,10 +36,10 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         toolbarMain.setTitle(R.string.hillfort_list)
         setSupportActionBar(toolbarMain)
 
+        presenter = HillfortListPresenter(this)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-
-        listToUse = app.hillforts.findAll().filter { it.usersID == user.id } //filter list by user id only
+        listToUse = presenter.getUserHillforts(user)
         recyclerView.adapter = HillfortAdapter(listToUse, this)
 
         loadHillforts()
@@ -63,10 +60,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
             {
                 try
                 {
-                    val intent = Intent(applicationContext, HillfortActivity::class.java)
-                    intent.putExtra("user", user)
-                    startActivity(intent)
-                    //finish()
+                    presenter.doAddHillfort(user)
                 }
                 catch (e: Exception) {}
             }
@@ -74,10 +68,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
             {
                 try
                 {
-                    val intent = Intent(applicationContext, SignInActivity::class.java)
-                    intent.putExtra("user", user)
-                    startActivity(intent)
-                    finish()
+                    presenter.doLogout(user)
                 }
                 catch (e: Exception) {}
 
@@ -86,18 +77,13 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
             {
                 try
                 {
-                    val intent = Intent(applicationContext, SettingsActivity::class.java)
-                    intent.putExtra("user", user)
-                    startActivity(intent)
-                    //finish()
+                    presenter.doSettings(user)
                 }
                 catch (e:Exception) {}
             }
             R.id.item_map ->
             {
-                val intent = Intent(applicationContext, HillfortMapsActivity::class.java)
-                intent.putExtra("user", user)
-                startActivity(intent)
+                presenter.doShowHillfortsMap(user)
             }
 
             //Other options to go here
@@ -107,7 +93,8 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
 
     override fun onHillfortClick(hillfort: HillfortModel)
     {
-        startActivityForResult(intentFor<HillfortActivity>().putExtra("hillfort_edit", hillfort).putExtra("user", user), 0)
+        presenter.doEditHillfort(hillfort, user)
+        //startActivityForResult(intentFor<HillfortActivity>().putExtra("hillfort_edit", hillfort).putExtra("user", user), 0)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
