@@ -20,4 +20,9 @@
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_preferences"
         />
+
+    <item
+        android:id="@+id/item_map"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/map_view" />
 </menu>

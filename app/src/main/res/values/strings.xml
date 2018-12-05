@@ -19,4 +19,6 @@
     <string name="create_account">Create an Account</string>
     <string name="hillfort_list">List of Hillforts</string>
     <string name="edit_hillfort">Edit Hillfort</string>
+    <string name="map_view">Map View</string>
+    <string name="title_activity_hillfort_maps">Map of All Hillforts</string>
 </resources>

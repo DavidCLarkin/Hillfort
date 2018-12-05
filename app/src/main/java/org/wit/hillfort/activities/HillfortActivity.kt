@@ -15,6 +15,7 @@ import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.presenters.HillfortPresenter
 import java.lang.Exception
 import java.util.*
 
@@ -27,6 +28,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
     var edit = false
     var hillfort = HillfortModel()
     var user = UserModel()
+    lateinit var presenter: HillfortPresenter
     lateinit var app : MainApp
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -38,11 +40,14 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
         mainToolbar.setTitle(R.string.create_hillfort)
         setSupportActionBar(mainToolbar)
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        presenter = HillfortPresenter(this)
 
         user = intent.getParcelableExtra("user") as UserModel
 
         info("Working")
 
+
+        /*
         //Check size of images list, and show them accordingly
         for((i,image) in hillfort.images.withIndex())
         {
@@ -134,11 +139,22 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 hillfort.date = ""
             }
         }
+        */
 
+        checkboxVisited.setOnClickListener()
+        {
+            presenter.doSetDate()
+        }
 
         // Add a new hillfort or update one depending on the context
         buttonAdd.setOnClickListener()
         {
+            if (hillfortTitle.text.toString().isEmpty()) {
+                toast(R.string.enter_hillfort_title)
+            } else {
+                presenter.doAddOrSave(hillfortTitle.text.toString(), description.text.toString(), notes.text.toString(), date.text.toString(), user)
+            }
+            /*
             hillfort.title = hillfortTitle.text.toString()
             hillfort.description = description.text.toString()
             hillfort.notes = notes.text.toString()
@@ -163,36 +179,152 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
                 setResult(AppCompatActivity.RESULT_OK)
             }
+
+        }
+        */
         }
 
         chooseImage.setOnClickListener {
-            showImagePicker(this, IMAGE_REQUEST)
-            //recreate()
+            //showImagePicker(this, IMAGE_REQUEST)
+            presenter.doSelectImage()
         }
 
         // Set the hillforts Location
         hillfortLocation.setOnClickListener {
-            val location = Location(52.245696, -7.139102, 15f)
-            if(hillfort.zoom != 0f)
-            {
-                location.lat = hillfort.lat
-                location.long = hillfort.long
-                location.zoom = hillfort.zoom
-            }
-            startActivityForResult(intentFor<MapsActivity>().putExtra("location", location).putExtra("user", user), LOCATION_REQUEST)
+            /*val location = Location(52.245696, -7.139102, 15f)
+        if(hillfort.zoom != 0f)
+        {
+            location.lat = hillfort.lat
+            location.long = hillfort.long
+            location.zoom = hillfort.zoom
+        }
+        startActivityForResult(intentFor<MapsActivity>().putExtra("location", location).putExtra("user", user), LOCATION_REQUEST)
+        */
+            presenter.doSetLocation()
         }
 
         buttonDelete.setOnClickListener {
-            app.hillforts.delete(hillfort.copy(), user.copy())
-            startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
-            info("Delete Clicked")
+            // app.hillforts.delete(hillfort.copy(), user.copy())
+            //startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
+            //info("Delete Clicked")
+            presenter.doDelete(user)
+            info("new size" + app.hillforts.findAll().size)
         }
+
+        /*
+        // When checkbox is checked, display a date picker and set this date.
+        checkboxVisited.setOnClickListener()
+        {
+            if (checkboxVisited.isChecked)
+            {
+                hillfort.visited = true
+
+                val calendar = Calendar.getInstance()
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+                val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{DatePicker, mYear, mMonth, mDay ->
+                    date.setText("" + mDay + "/" + mMonth + "/" + mYear)
+                }, year, month, day )
+
+                dpd.show()
+                hillfort.date = date.text.toString()
+            }
+            else
+            {
+                hillfort.visited = false
+                date.setText("")
+                hillfort.date = ""
+            }
+        }
+                }
+    */
+    }
+
+    fun showHillfort(hillfort: HillfortModel)
+    {
+        hillfortTitle.setText(hillfort.title)
+        description.setText(hillfort.description)
+        date.setText(hillfort.date)
+        notes.setText(hillfort.notes)
+        checkboxVisited.isChecked = !hillfort.date.isEmpty() // setting checkbox ticked or unticked
+
+        //Check size of images list, and show them accordingly
+        for((i,image) in hillfort.images.withIndex())
+        {
+            info("size: ${hillfort.images.size}")
+            if(i == 0) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+            }
+            else if(i == 1) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+            }
+            else if(i == 2) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+            }
+            else if(i == 3) {
+                hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+                hillfortImage3.setImageBitmap(readImageFromPath(this, hillfort.images.get(3)))
+            }
+        }
+
+        buttonAdd.setText(R.string.save_hillfort)
+
+        //If edit, get the object and set view values
+        /*
+        if(intent.hasExtra("hillfort_edit"))
+        {
+            edit = true
+            hillfort = intent.extras.getParcelable<HillfortModel>("hillfort_edit")
+            mainToolbar.setTitle(R.string.edit_hillfort)
+
+
+            // Set the variables to the hillforts data
+            hillfortTitle.setText(hillfort.title)
+            description.setText(hillfort.description)
+            checkboxVisited.isChecked = hillfort.visited
+            notes.setText(hillfort.notes)
+            date.setText(hillfort.date)
+
+            buttonAdd.setText(R.string.save_hillfort)
+
+            for((i,image) in hillfort.images.withIndex())
+            {
+                info("size: ${hillfort.images.size}")
+                if(i == 0) {
+                    hillfortImage0.setImageBitmap(readImageFromPath(this, hillfort.images.get(0)))
+                }
+                else if(i == 1) {
+                    hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images.get(1)))
+                }
+                else if(i == 2) {
+                    hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images.get(2)))
+                }
+                else if(i == 3) {
+                    hillfortImage3.setImageBitmap(readImageFromPath(this, hillfort.images.get(3)))
+                }
+            }
+
+            if(!hillfort.images.isEmpty())
+            {
+                chooseImage.setText("Change Hillfort images")
+            }
+        }
+        */
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean
     {
         menuInflater.inflate(R.menu.menu_hillfort, menu)
+        if(presenter.edit)
+            menu?.getItem(0)?.setVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -205,18 +337,23 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
             {
                 try
                 {
-                    startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
-                    finish()
+                    presenter.doCancel()
+                    //startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return
+                    //finish()
                 }
-                catch (e:Exception){}
+                catch (e:Exception){
+                    e.printStackTrace()
+                }
             }
 
             R.id.action_delete ->
             {
                 try
                 {
-                    app.hillforts.delete(hillfort.copy(), user.copy())
-                    startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
+                    presenter.doDelete(user)
+                    info("new size"+app.hillforts.findAll().size)
+                    //app.hillforts.delete(hillfort.copy(), user.copy())
+                    //startActivity(intentFor<HillfortListActivity>().putExtra("user", user)) //return to main screen
                 }
                 catch (e:Exception){}
             }
@@ -227,7 +364,11 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode)
+        if(data != null)
+        {
+            presenter.doActivityResult(requestCode, resultCode, data)
+        }
+        /*when(requestCode)
         {
             IMAGE_REQUEST ->
             {
@@ -276,5 +417,6 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger
                 }
             }
         }
+        */
     }
 }

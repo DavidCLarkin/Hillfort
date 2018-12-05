@@ -1,4 +1,4 @@
-package org.wit.hillfort.models
+package org.wit.hillfort.presenters
 
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity

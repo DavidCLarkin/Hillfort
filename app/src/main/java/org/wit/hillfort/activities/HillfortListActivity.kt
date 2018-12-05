@@ -93,6 +93,13 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
                 }
                 catch (e:Exception) {}
             }
+            R.id.item_map ->
+            {
+                val intent = Intent(applicationContext, HillfortMapsActivity::class.java)
+                intent.putExtra("user", user)
+                startActivity(intent)
+            }
+
             //Other options to go here
         }
         return super.onOptionsItemSelected(item)
