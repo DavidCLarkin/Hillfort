@@ -20,6 +20,7 @@ import org.wit.hillfort.models.UserModel
 class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
 {
     lateinit var app: MainApp
+    lateinit var presenter: HillforMapsPresenter
     var user = UserModel()
     lateinit var map: GoogleMap
     var listToUse: List<HillfortModel> = arrayListOf() //list to show to specific users
@@ -28,7 +29,7 @@ class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_maps)
-        app = application as MainApp
+        //app = application as MainApp
         setSupportActionBar(mainToolbar)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync {

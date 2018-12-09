@@ -6,14 +6,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import org.wit.hillfort.R
-import org.wit.hillfort.presenters.MapsPresenter
+import org.wit.hillfort.presenters.EditLocationPresenter
 
-class MapsActivity : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener
+class EditLocationActivity : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener
 {
 
     lateinit var map: GoogleMap
     //var location = Location()
-    lateinit var presenter: MapsPresenter
+    lateinit var presenter: EditLocationPresenter
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -21,7 +21,7 @@ class MapsActivity : AppCompatActivity(), GoogleMap.OnMarkerDragListener, Google
         setContentView(R.layout.activity_maps)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         //location = intent.extras.getParcelable<Location>("location")
-        presenter = MapsPresenter(this)
+        presenter = EditLocationPresenter(this)
         mapFragment.getMapAsync{
             map = it
             map.setOnMarkerDragListener(this)
