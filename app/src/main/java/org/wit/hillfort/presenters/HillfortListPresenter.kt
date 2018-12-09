@@ -1,20 +1,13 @@
 package org.wit.hillfort.presenters
 
-import android.content.Intent
 import org.jetbrains.anko.*
 import org.wit.hillfort.activities.*
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
 
-class HillfortListPresenter(val activity: HillfortListActivity) : AnkoLogger
+class HillfortListPresenter(view: BaseView) : BasePresenter(view)
 {
-
-    var app: MainApp
-
-    init {
-        app = activity.application as MainApp
-    }
 
     fun getHillforts() = app.hillforts.findAll()
 
@@ -25,27 +18,26 @@ class HillfortListPresenter(val activity: HillfortListActivity) : AnkoLogger
 
     fun doSettings(user: UserModel)
     {
-        info { "settings" }
-        activity.startActivityForResult(activity.intentFor<SettingsActivity>().putExtra("user", user), 0)
+        view?.startActivityForResult(view?.intentFor<SettingsActivity>()?.putExtra("user", user), 0)
     }
 
     fun doLogout(user: UserModel)
     {
-        activity.startActivityForResult(activity.intentFor<SignInActivity>().putExtra("user", user), 0)
+        view?.startActivityForResult(view?.intentFor<SignInActivity>()?.putExtra("user", user), 0)
     }
 
     fun doAddHillfort(user: UserModel)
     {
-        activity.startActivityForResult(activity.intentFor<HillfortActivity>().putExtra("user", user), 0)
+        view?.startActivityForResult(view?.intentFor<HillfortView>()?.putExtra("user", user), 0)
     }
 
     fun doEditHillfort(hillfort: HillfortModel, user: UserModel)
     {
-        activity.startActivityForResult(activity.intentFor<HillfortActivity>().putExtra("hillfort_edit", hillfort).putExtra("user", user), 0)
+        view?.startActivityForResult(view?.intentFor<HillfortView>()?.putExtra("hillfort_edit", hillfort)?.putExtra("user", user), 0)
     }
 
     fun doShowHillfortsMap(user: UserModel)
     {
-        activity.startActivityForResult(activity.intentFor<HillfortMapsActivity>().putExtra("user", user), 0)
+        view?.startActivityForResult(view?.intentFor<HillfortMapView>()?.putExtra("user", user), 0)
     }
 }

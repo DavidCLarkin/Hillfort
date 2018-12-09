@@ -1,7 +1,6 @@
 package org.wit.hillfort.activities
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,18 +8,18 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.hillfort.R
-
 import kotlinx.android.synthetic.main.activity_hillfort_maps.*
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
 import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.presenters.HillfortMapPresenter
 
-class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
+class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener
 {
     lateinit var app: MainApp
-    lateinit var presenter: HillforMapsPresenter
+    lateinit var presenter: HillfortMapPresenter
     var user = UserModel()
     lateinit var map: GoogleMap
     var listToUse: List<HillfortModel> = arrayListOf() //list to show to specific users
@@ -29,21 +28,40 @@ class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_maps)
-        //app = application as MainApp
         setSupportActionBar(mainToolbar)
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync {
-            map = it
-            configureMap()
-        }
+        app = application as MainApp
+        presenter = initPresenter(HillfortMapPresenter(this)) as HillfortMapPresenter
 
         user = intent.getParcelableExtra("user") as UserModel
         listToUse = app.hillforts.findAll().filter { it.usersID == user.id } //filter list by user id only
 
-        /*fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }*/
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync {
+            map = it
+            it.setOnMarkerClickListener(this)
+            presenter.loadHillforts()
+        }
+    }
+
+    override fun showHillfort(hillfort: HillfortModel)
+    {
+        currentTitle.text = hillfort.title
+        currentDescription.text = hillfort.description
+        if(hillfort.images.size > 0)
+            imageView.setImageBitmap(readImageFromPath(this@HillfortMapView, hillfort.images[0]))
+
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean
+    {
+        presenter.doMarkerSelected(marker)
+        return true
+    }
+
+    override fun showHillforts(hillforts: List<HillfortModel>)
+    {
+        presenter.doPopulateMap(map, listToUse)
+        super.showHillforts(hillforts)
     }
 
     override fun onDestroy()
@@ -76,7 +94,7 @@ class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
         mapView.onSaveInstanceState(outState)
     }
 
-    fun configureMap()
+    /*fun configureMap()
     {
         map.setOnMarkerClickListener(this)
         map.uiSettings.setZoomControlsEnabled(true)
@@ -95,8 +113,9 @@ class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
         currentTitle.text = hillfort!!.title
         currentDescription.text = hillfort!!.description
         if(hillfort.images.size > 0)
-            imageView.setImageBitmap(readImageFromPath(this@HillfortMapsActivity, hillfort.images[0]))
+            imageView.setImageBitmap(readImageFromPath(this@HillfortMapView, hillfort.images[0]))
         return true
     }
+    */
 
 }

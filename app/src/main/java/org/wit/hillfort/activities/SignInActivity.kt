@@ -55,7 +55,7 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
                         if (username.text.toString().toLowerCase() == user.username && password.text.toString().toLowerCase() == decrypt(user.password))
                         {
                             success = true
-                            val intent = Intent(applicationContext, HillfortListActivity::class.java)
+                            val intent = Intent(applicationContext, HillfortListView::class.java)
                             intent.putExtra("user", user)
                             startActivity(intent)
                             finish()
@@ -87,7 +87,7 @@ class SignInActivity : AppCompatActivity(), AnkoLogger
 
         nosignin.setOnClickListener()
         {
-            val intent = Intent(applicationContext, HillfortListActivity::class.java)
+            val intent = Intent(applicationContext, HillfortListView::class.java)
             startActivity(intent)
             finish()
         }

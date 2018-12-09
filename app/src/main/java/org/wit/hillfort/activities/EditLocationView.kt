@@ -6,9 +6,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import org.wit.hillfort.R
+import org.wit.hillfort.models.Location
 import org.wit.hillfort.presenters.EditLocationPresenter
 
-class EditLocationActivity : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener
+class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener
 {
 
     lateinit var map: GoogleMap
@@ -32,17 +33,15 @@ class EditLocationActivity : AppCompatActivity(), GoogleMap.OnMarkerDragListener
 
     override fun onMarkerDragStart(marker: Marker)
     {
-
     }
 
     override fun onMarkerDrag(marker: Marker)
     {
-
     }
 
     override fun onMarkerDragEnd(marker: Marker)
     {
-        presenter.doUpdateLocation(marker.position.latitude, marker.position.longitude, map.cameraPosition.zoom)
+        presenter.doUpdateLocation(marker.position.latitude, marker.position.longitude)
     }
 
     override fun onBackPressed()

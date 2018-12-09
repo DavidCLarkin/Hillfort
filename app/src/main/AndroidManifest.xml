@@ -18,8 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.HillfortActivity"
-            android:parentActivityName=".activities.HillfortListActivity"
+            android:name=".activities.HillfortView"
+            android:parentActivityName=".activities.HillfortListView"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
@@ -28,14 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HillfortListActivity" />
+        <activity android:name=".activities.HillfortListView" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapsActivity"
+            android:name=".activities.EditLocationView"
             android:label="@string/title_activity_maps" />
         <activity android:name=".activities.SignInActivity" />
         <activity
@@ -43,9 +43,9 @@
             android:parentActivityName=".activities.SignInActivity" />
         <activity
             android:name=".activities.SettingsActivity"
-            android:parentActivityName=".activities.HillfortListActivity" />
+            android:parentActivityName=".activities.HillfortListView" />
         <activity
-            android:name=".activities.HillfortMapsActivity"
+            android:name=".activities.HillfortMapView"
             android:label="@string/title_activity_hillfort_maps"></activity>
     </application>
 

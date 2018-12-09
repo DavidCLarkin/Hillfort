@@ -13,7 +13,7 @@ import org.wit.hillfort.models.UserModel
 import org.wit.hillfort.presenters.HillfortListPresenter
 import java.lang.Exception
 
-class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
+class HillfortListView : BaseView(), HillfortListener, AnkoLogger
 {
     var user = UserModel()
     var listToUse: List<HillfortModel> = arrayListOf() //list to show to specific users
@@ -36,7 +36,8 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         toolbarMain.setTitle(R.string.hillfort_list)
         setSupportActionBar(toolbarMain)
 
-        presenter = HillfortListPresenter(this)
+        presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
+
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         listToUse = presenter.getUserHillforts(user)
@@ -108,7 +109,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger
         showHillforts(listToUse)
     }
 
-    fun showHillforts(hillforts: List<HillfortModel>)
+    override fun showHillforts(hillforts: List<HillfortModel>)
     {
         recyclerView.adapter = HillfortAdapter(hillforts, this)
         recyclerView.adapter?.notifyDataSetChanged()

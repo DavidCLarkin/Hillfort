@@ -40,13 +40,13 @@ class SettingsActivity : AppCompatActivity(), AnkoLogger
 
             app.users.update(user.copy())
 
-            startActivityForResult(intentFor<HillfortListActivity>().putExtra("user", user), 1) //return to main screen
+            startActivityForResult(intentFor<HillfortListView>().putExtra("user", user), 1) //return to main screen
             setResult(AppCompatActivity.RESULT_OK)
 
         }
 
         cancelSettings.setOnClickListener {
-            startActivity(intentFor<HillfortListActivity>().putExtra("user", user))
+            startActivity(intentFor<HillfortListView>().putExtra("user", user))
         }
 
     }
