@@ -19,7 +19,6 @@ enum class VIEW {
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger
 {
-
     var basePresenter: BasePresenter? = null
 
     fun navigateTo(view: VIEW, code: Int = 0, key: String = "", value: Parcelable? = null)
@@ -45,10 +44,11 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger
         return presenter
     }
 
-    fun init(toolbar: Toolbar)
+    fun init(toolbar: Toolbar, upEnabled: Boolean)
     {
         toolbar.title = title
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(upEnabled)
     }
 
     override fun onDestroy()
